@@ -1,5 +1,7 @@
 <template>
 
+    <v-app>
+
     <v-container class="grid-list-md text-xs-center">
 
         <v-text-field
@@ -9,7 +11,7 @@
         ></v-text-field>
 
 
-        <v-layout row v-if="search_distance">
+        <v-layout row>
             <v-flex  sm12 xs12>
                 <v-card>
                     <v-toolbar color="teal" dark>
@@ -37,7 +39,7 @@
                                     <v-list-tile-title>
                                         <v-icon>fas fa-space-shuttle</v-icon>
 
-                                        {{ starship.name }} - paradas exigidas:  {{stopStarship}}
+                                        {{ starship.name }} - paradas exigidas:
                                     </v-list-tile-title>
                                 </v-list-tile-content>
                             </v-list-tile>
@@ -63,20 +65,22 @@
             <div class="text-xs-center">
                 <v-pagination
                     v-model="page"
-                    :length="4"
+                    :length="pages"
+                    @input="starshipList"
                     circle
                 ></v-pagination>
             </div>
 
     </v-container>
 
+    </v-app>
 
 </template>
 
 <script>
 
-    import StarshipsService from '../../services/StarshipService'
-    // import Card from '@/components/Card'
+    // import StarshipsService from '../../services/StarshipService'
+    import {mapGetters} from 'vuex'
 
     export default {
         name: "index",
@@ -88,36 +92,52 @@
             return {
                // starships: [],
                 page: 1,
-                // search_distance:'',
-                // length: this.starships!=''?Math.ceil(this.starships.results.length/10):null
+                search_distance:'',
+                 //length: this.starships!=''?Math.ceil(this.starships.results.length/10):null
             }
         },
 
         computed:{
 
-            starships(){
+            ...mapGetters('starship', {
+                starships: 'starships',
+                pages: 'starshipLength'
+            }),
 
-               return this.$store.getters.starships
 
-            },
 
-            stopStarship(){
+            // starships(){
+            //
+            //    return this.$store.getters.starship.starships
+            //
+            // },
 
-               return this.$store.dispatch('stopStarship')
-            },
-
-            search_distance:{
-                get () {
-                    return this.$store.state.search_distance
-                },
-                set (value) {
-                    this.$store.commit('updateSearchDistance', value)
-                    this.$store.dispatch('updateStarship', 1);
-
-                }
-            }
+            // stopStarship(){
+            //
+            //    return this.$store.dispatch('starship/stopStarship')
+            // },
 
         },
+
+        // watch:{
+        //     // ...mapActions('starship', {
+        //     //     search_distance:{
+        //     //         this.$store.commit('starship/updateSearchDistance', value)
+        //     //       //  this.$store.dispatch('starship/updateStarship', 1);
+        //     //     }
+        //     // }),
+        //
+        //     page:{
+        //         get () {
+        //             return this.$store.getters.starship.starshipLength
+        //         },
+        //         set (value) {
+        //           return this.$store.dispatch('starship/updateStarship', value)
+        //
+        //         }
+        //     }
+        //
+        // },
 
 
 
@@ -125,45 +145,47 @@
         methods: {
 
 
-            editListStarships(){
-             var self = this;
-            alert('Pegou');
+            // editListStarships(){
+            //  var self = this;
+            // alert('Pegou');
+            //
+            //     this.starships.results.map( function( item ) {
+            //       return parseFloat(self.search_distance)/parseFloat(item.MGLT)
+            //     });
+            //
+            // },
 
-                this.starships.results.map( function( item ) {
-                  return parseFloat(self.search_distance)/parseFloat(item.MGLT)
-                });
+            // calculateStops(value) {
+            //
+            //     return  Math.ceil(parseFloat(this.search_distance)/parseFloat(value))
+            //     //
+            //     // let distance = null;
+            //     // var self = this;
+            //     // switch (value) {
+            //     //     // case value == 'unknown':
+            //     //     //     distance = 'unknown'
+            //     //     //     break;
+            //     //     case self.isNumber(self.search_distance):
+            //     //         distance = Math.ceil(parseFloat(self.search_distance)/parseFloat(value));
+            //     //         break;
+            //     //     default:
+            //     //         distance = 'unknown'
+            //     // }
+            //     //
+            //     // return distance;
+            // },
 
-            },
+            starshipList(){
 
-            calculateStops(value) {
+                return this.$store.dispatch('starship/updateStarship', this.page);
 
-                return  Math.ceil(parseFloat(this.search_distance)/parseFloat(value))
-                //
-                // let distance = null;
-                // var self = this;
-                // switch (value) {
-                //     // case value == 'unknown':
-                //     //     distance = 'unknown'
-                //     //     break;
-                //     case self.isNumber(self.search_distance):
-                //         distance = Math.ceil(parseFloat(self.search_distance)/parseFloat(value));
-                //         break;
-                //     default:
-                //         distance = 'unknown'
-                // }
-                //
-                // return distance;
-            },
-
-            isNumber(n) {
-                return !isNaN(parseFloat(n)) && isFinite(n);
-            },
-
-
-            listStarships() {
-                return StarshipsService.listAllStarships()
-                    .then(resp => this.starships = resp.data)
             }
+
+        },
+
+        created() {
+
+          this.starshipList(1)
 
         }
     }
