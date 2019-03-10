@@ -1,10 +1,15 @@
 <template>
-    $END$
+    <v-app>
+
+        <slot />
+
+    </v-app>
+
 </template>
 
 <script>
 export default {
-    name: "master"
+    name: "Master"
 }
 </script>
 
