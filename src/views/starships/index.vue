@@ -5,20 +5,20 @@
     <v-container class="grid-list-md text-xs-center">
 
         <v-text-field
-                label="Digite a distância percorrida, em mega lights (MGLT)"
+                label="Digite a distância percorrida em mega lights (MGLT)"
                 prepend-inner-icon="search"
-                v-model="search_distance"
+                v-model="searchDistance"
         ></v-text-field>
 
 
-        <v-layout row>
+        <v-layout row v-if="searchDistance">
             <v-flex  sm12 xs12>
                 <v-card>
                     <v-toolbar color="teal" dark>
                         <!--<v-toolbar-side-icon></v-toolbar-side-icon>-->
 
                         <v-toolbar-title>
-                            Starships
+                            Espaçonaves
                         </v-toolbar-title>
 
                         <v-spacer></v-spacer>
@@ -39,14 +39,14 @@
                                     <v-list-tile-title>
                                         <v-icon>fas fa-space-shuttle</v-icon>
 
-                                        {{ starship.name }} - paradas exigidas:
+                                        {{ starship.name }} - paradas exigidas: {{stopstarship(starship.MGLT)}}
                                     </v-list-tile-title>
                                 </v-list-tile-content>
                             </v-list-tile>
 
                             <v-list-tile>
                                 <v-list-tile-content>
-                                    <v-list-tile-title>Model: {{ starship.model }}</v-list-tile-title>
+                                    <v-list-tile-title>Modelo: {{ starship.model }}</v-list-tile-title>
 
                                 </v-list-tile-content>
 
@@ -57,19 +57,23 @@
                         </v-list-group>
                     </v-list>
                 </v-card>
+
+                <div class="text-xs-center">
+                    <v-pagination
+                            v-model="page"
+                            :length="pages"
+                            @input="starshipList"
+                            circle
+                    ></v-pagination>
+                </div>
+
             </v-flex>
+
         </v-layout>
 
 
 
-            <div class="text-xs-center">
-                <v-pagination
-                    v-model="page"
-                    :length="pages"
-                    @input="starshipList"
-                    circle
-                ></v-pagination>
-            </div>
+
 
     </v-container>
 
@@ -79,21 +83,16 @@
 
 <script>
 
-    // import StarshipsService from '../../services/StarshipService'
     import {mapGetters} from 'vuex'
 
     export default {
         name: "index",
-        // components: [
-        //        // Card
-        // ],
+
 
         data() {
             return {
-               // starships: [],
                 page: 1,
-                search_distance:'',
-                 //length: this.starships!=''?Math.ceil(this.starships.results.length/10):null
+                searchDistance:''
             }
         },
 
@@ -104,80 +103,32 @@
                 pages: 'starshipLength'
             }),
 
-
-
-            // starships(){
-            //
-            //    return this.$store.getters.starship.starships
-            //
-            // },
-
-            // stopStarship(){
-            //
-            //    return this.$store.dispatch('starship/stopStarship')
-            // },
-
         },
 
-        // watch:{
-        //     // ...mapActions('starship', {
-        //     //     search_distance:{
-        //     //         this.$store.commit('starship/updateSearchDistance', value)
-        //     //       //  this.$store.dispatch('starship/updateStarship', 1);
-        //     //     }
-        //     // }),
-        //
-        //     page:{
-        //         get () {
-        //             return this.$store.getters.starship.starshipLength
-        //         },
-        //         set (value) {
-        //           return this.$store.dispatch('starship/updateStarship', value)
-        //
-        //         }
-        //     }
-        //
-        // },
+        watch: {
 
+            searchDistance:function (value) {
+
+                this.$store.commit('starship/setSearchDistance', value)
+
+            }
+
+
+        },
 
 
 
         methods: {
 
-
-            // editListStarships(){
-            //  var self = this;
-            // alert('Pegou');
-            //
-            //     this.starships.results.map( function( item ) {
-            //       return parseFloat(self.search_distance)/parseFloat(item.MGLT)
-            //     });
-            //
-            // },
-
-            // calculateStops(value) {
-            //
-            //     return  Math.ceil(parseFloat(this.search_distance)/parseFloat(value))
-            //     //
-            //     // let distance = null;
-            //     // var self = this;
-            //     // switch (value) {
-            //     //     // case value == 'unknown':
-            //     //     //     distance = 'unknown'
-            //     //     //     break;
-            //     //     case self.isNumber(self.search_distance):
-            //     //         distance = Math.ceil(parseFloat(self.search_distance)/parseFloat(value));
-            //     //         break;
-            //     //     default:
-            //     //         distance = 'unknown'
-            //     // }
-            //     //
-            //     // return distance;
-            // },
-
             starshipList(){
 
-                return this.$store.dispatch('starship/updateStarship', this.page);
+                return this.$store.dispatch('starship/listStarship', this.page);
+
+            },
+
+            stopstarship(mglt){
+
+              return  mglt!='unknown'?Math.ceil(parseFloat(this.searchDistance)/parseFloat(mglt)) - 1:'Indefinido';
 
             }
 
@@ -190,7 +141,3 @@
         }
     }
 </script>
-
-<style scoped>
-
-</style>
