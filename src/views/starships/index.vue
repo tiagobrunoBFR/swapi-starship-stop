@@ -3,11 +3,10 @@
     <master>
         <v-container class="grid-list-md text-xs-center">
 
-           <search-distance></search-distance>
+           <search-distance />
 
             <v-layout row v-if="searchDistance">
                 <v-flex  sm12 xs12>
-
 
                     <starship-list />
 
