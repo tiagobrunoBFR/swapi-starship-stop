@@ -1,29 +1,17 @@
 # swapi-starships
 
-## Project setup
+## Configuração
 ```
 npm install
-```
+``` 
 
-### Compiles and hot-reloads for development
 ```
 npm run serve
 ```
 
-### Compiles and minifies for production
-```
-npm run build
-```
 
-### Run your tests
-```
-npm run test
-```
+### Sobre o app
 
-### Lints and fixes files
-```
-npm run lint
-```
+O App receberá como parâmetro a distância a ser percorrida, em mega lights (MGLT), para calcular quantas paradas serão necessárias para percorrer uma dada distância, com cada uma das espaçonaves 
+listadas em https://swapi.co/api/starships/
 
-### Customize configuration
-See [Configuration Reference](https://cli.vuejs.org/config/).
