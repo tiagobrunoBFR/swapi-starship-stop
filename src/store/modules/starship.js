@@ -6,7 +6,6 @@ export default {
     state:{
         starshipsStore:[],
         searchDistanceStore: '',
-        stopStarshipStore:'',
         starshipLengthStore:''
     },
 
@@ -21,11 +20,6 @@ export default {
             state.searchDistanceStore = newSearchDistance
         },
 
-        setStopStarship(state, newStopstarship){
-
-            state.stopStarshipStore = newStopstarship
-
-        },
 
         setStarshipLenght(state, newStarshipLength){
 
@@ -44,28 +38,12 @@ export default {
                 commit('setStarshipStore', []);
             }
         },
-
-         stopStarship({getters}, mglt) {
-
-            try {
-                return Math.ceil(parseFloat(getters.searchDistance)/parseFloat(mglt)) - 1
-
-            } catch (e) {
-                return 'unknowm'
-            }
-        }
     },
 
     getters:{
         starships(state) {
 
             return state.starshipsStore;
-
-        },
-
-        stopStarship(state) {
-
-            return state.stopStarshipStore
 
         },
 
