@@ -5,18 +5,18 @@
 
            <search-distance />
 
-            <v-layout row v-if="searchDistance">
-                <v-flex  sm12 xs12>
+<!--            <v-layout row v-if="searchDistance">-->
+<!--                <v-flex  sm12 xs12>-->
 
-                    <starship-list />
+<!--                    <starship-list />-->
 
-                    <div class="text-xs-center">
-                       <starship-pagination/>
-                    </div>
+<!--                    <div class="text-xs-center">-->
+<!--                       <starship-pagination/>-->
+<!--                    </div>-->
 
-                </v-flex>
+<!--                </v-flex>-->
 
-            </v-layout>
+<!--            </v-layout>-->
 
         </v-container>
 

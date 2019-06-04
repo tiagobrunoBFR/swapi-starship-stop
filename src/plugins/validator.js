@@ -1,7 +1,7 @@
 import Vue from 'vue'
 import Vuelidate from "vuelidate";
 import VuelidateErrorExtractor, { templates } from "vuelidate-error-extractor";
-
+import FormGroup from '@/components/FormGroup'
 Vue.use(Vuelidate);
 Vue.use(VuelidateErrorExtractor, {
     i18n: false,
@@ -18,4 +18,5 @@ Vue.use(VuelidateErrorExtractor, {
 
 
 
-Vue.component("form-group", templates.singleErrorExtractor.foundation6);
+Vue.component("FormGroup", FormGroup);
+Vue.component("FormWrapper", templates.FormWrapper);
