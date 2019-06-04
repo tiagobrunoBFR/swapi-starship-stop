@@ -1,28 +1,25 @@
 <template>
+     <span>
 
-        <form-group :validator="$v.searchDistance" name="Distância percorrida">
-            <template slot-scope="{ attrs }">
-            <v-text-field
-                    label="Digite a distância percorrida em mega lights (MGLT)"
-                    prepend-inner-icon="search"
-                    v-bind="attrs"
-                    v-model="searchDistance"
-                    @input="$v.searchDistance.$touch()"
-            >
-            </v-text-field>
-            </template>
-        </form-group>
+         <base-input
+                 labelInput="Digite a distância percorrida em mega lights (MGLT)"
+                 iconInput="search"
+                 v-model="searchDistance"
+                 attributeError="Distância percorrida"
+                 :v="$v.searchDistance">
+         </base-input>
+
+     </span>
+
 </template>
 
 <script>
     import {required, numeric} from "vuelidate/lib/validators";
-    import FormGroup from "@/components/FormGroup.vue";
+    import BaseInput from "@/components/BaseInput";
 
     export default {
         name: "SearchDistance",
-        comments: {
-            FormGroup
-        },
+        components: {BaseInput},
         data() {
             return {
                 searchDistance: ''
@@ -33,7 +30,6 @@
         watch: {
 
             searchDistance: function (value) {
-                console.log(this.$v.searchDistance)
                 if (!this.$v.$invalid) {
                     this.$store.commit('starship/setSearchDistance', value)
                 }
@@ -41,7 +37,6 @@
         },
         validations: {
             searchDistance: {required, numeric},
-
         }
 
     }

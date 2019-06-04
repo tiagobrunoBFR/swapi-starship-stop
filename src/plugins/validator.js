@@ -8,14 +8,11 @@ Vue.use(VuelidateErrorExtractor, {
     // Define common validation messages.
     messages: {
         required: "{attribute} é obrigatório!",
-        isJoe: "{attribute} must be Joe",
-        notGmail: "{attribute} must not be gmail",
-        email: "{attribute} is not a valid Email address.",
-        isEmailAvailable:
-            "{attribute} is not available. Must be at least 10 characters long."
+        numeric: "{attribute} deve conter um valor númerico",
+        email: "{attribute} não é um e-mail válido.",
+
     }
 });
-
 
 
 Vue.component("FormGroup", FormGroup);
